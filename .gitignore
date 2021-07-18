@@ -1,0 +1,16 @@
+################################### METADATA ###################################
+
+# Contributors: roadelou
+# Contacts: 
+# Creation Date: 2021-07-18
+# Language: Gitignore file
+
+##################################### BODY #####################################
+
+# Ignoring vim swap files.
+*.swp
+#
+# Ignoring build directory.
+build
+
+##################################### EOF ######################################
