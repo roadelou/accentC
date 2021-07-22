@@ -17,28 +17,40 @@ INC_FLAG = -I ./include
 SRC = ./src/main.c ./src/accent.c
 #
 # The build directory for the project.
-BUILD_DIR = ./build
+BUILDDIR = ./build
 #
 # The compiled executable produced by the project.
-EXEC = $(BUILD_DIR)/accent.elf
+EXEC = $(BUILDDIR)/accent.elf
 #
 # Various error related flags.
 ERR_FLAGS = -Wall -pedantic
+#
+# The location where the executable will be installed.
+BINDIR = $(DESTDIR)/usr/bin
 
 ################################### SPECIAL ####################################
 
-.PHONY: clean
+.PHONY: clean install uninstall
 
 #################################### RULES #####################################
 
 all: $(EXEC)
 
 # We compile with clang.
-$(EXEC): $(BUILD_DIR) $(SRC) $(HEAD)
+$(EXEC): $(BUILDDIR) $(SRC) $(HEAD)
 	clang $(INC_FLAG) $(ERR_FLAG) $(SRC) -o $(EXEC)
 
-$(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
+$(BUILDDIR):
+	mkdir -p $(BUILDDIR)
+
+$(BINDIR):
+	mkdir -p $(BINDIR)
+
+install: $(EXEC) $(BINDIR)
+	install -m 755 $(EXEC) $(BINDIR)/accent
+
+uninstall:
+	rm -f $(BINDIR)/accent
 
 clean:
 	rm $(EXEC)
