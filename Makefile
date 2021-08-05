@@ -23,7 +23,7 @@ BUILDDIR = ./build
 EXEC = $(BUILDDIR)/accent.elf
 #
 # Various error related flags.
-ERR_FLAGS = -Wall -pedantic
+ERR_FLAG = -Wall -pedantic
 #
 # The location where the executable will be installed.
 BINDIR = $(DESTDIR)/usr/bin
