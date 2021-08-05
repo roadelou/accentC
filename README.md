@@ -1,4 +1,4 @@
-# Accent (C)
+﻿# Accent (C)
 
 `accent` is a simple CLI tool to add french accents to a text file using markup. I wrote this program because my keyboard doesn't have shortcuts for those and I often have to write long essays in french.
 
@@ -40,6 +40,10 @@ The following substitution patterns will be replaced by the associated french ac
 | C4 | Ç |
 | o3 | ô |
 | O3 | Ô |
+| u3 | û |
+| U3 | Û |
+| i3 | î |
+| I3 | Î |
 
 Note that there are no escape characters for the defined markup language, so use with caution.
 
