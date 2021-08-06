@@ -26,16 +26,16 @@
 //
 // Array used to hold all of the pattern to match for the various accents.
 static const char *patterns[] = {
-    "e1", "e2", "e3", "a1", "a3", "c4", "E1", "E2", "E3",
-    "A1", "A3", "C4", "o3", "O3", "u3", "U3", "i3", "I3",
+    "e1", "e2", "e3", "a1", "a3", "c4", "E1", "E2", "E3", "A1",
+    "A3", "C4", "o3", "O3", "u3", "U3", "i3", "I3", "u1", "U1",
 };
 //
 // Array used to hold the words that the patterns will be replaced with.
-static const char *words[] = {
-    "\xc3\xa8", "\xc3\xa9", "\xc3\xaa", "\xc3\xa0", "\xc3\xa2", "\xc3\xa7",
-    "\xc3\x88", "\xc3\x89", "\xc3\x90", "\xc3\x80", "\xc3\x82", "\xc3\x87",
-    "\xc3\xb4", "\xc3\x94", "\xc3\xbb", "\xc3\x9b", "\xc3\xae", "\xc3\x8e",
-};
+static const char *words[] = {"\xc3\xa8", "\xc3\xa9", "\xc3\xaa", "\xc3\xa0",
+                              "\xc3\xa2", "\xc3\xa7", "\xc3\x88", "\xc3\x89",
+                              "\xc3\x90", "\xc3\x80", "\xc3\x82", "\xc3\x87",
+                              "\xc3\xb4", "\xc3\x94", "\xc3\xbb", "\xc3\x9b",
+                              "\xc3\xae", "\xc3\x8e", "\xc3\xb9", "\xc3\x99"};
 
 /********************************* PROTOYPES **********************************/
 
