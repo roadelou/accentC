@@ -44,6 +44,8 @@ The following substitution patterns will be replaced by the associated french ac
 | U3 | Û |
 | i3 | î |
 | I3 | Î |
+| u1 | ù |
+| U1 | Ù |
 
 Note that there are no escape characters for the defined markup language, so use with caution.
 
