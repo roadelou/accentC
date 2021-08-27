@@ -106,6 +106,10 @@ char *replace(const char *text, const char *pattern, const char *word) {
     // We add a final null-termination byte just in case.
     *write_head = '\0';
     //
+    // We free the memory allocated for the MatchList which won't be needed any
+    // further.
+    match_list_free(&match_list);
+    //
     // We return the expected string.
     return returned_string;
 }
