@@ -34,11 +34,8 @@
 
 // Implementation of the functions described in "accent.h".
 char *replace(const char *text, const char *pattern, const char *word) {
-    // A variable used to store the current length of the allocated string.
-    size_t allocated_length = 0;
-    //
-    // A cursor for our current position in the original `text`.
-    const char *cursor = text;
+    // We compute the length of the text once.
+    const size_t text_length = strlen(text);
     //
     // The length (in bytes) of the `pattern`, computed once.
     const size_t pattern_length = strlen(pattern);
@@ -46,53 +43,68 @@ char *replace(const char *text, const char *pattern, const char *word) {
     // We also cache the length of the `word` so that it is only computed once.
     const size_t word_length = strlen(word);
     //
-    // A pointer to the returned string.
-    char *returned_string;
+    // We start by finding all occurences of the `pattern` within the `text`
+    // using the `match` function.
+    struct MatchList match_list = match(text, pattern);
     //
-    // We go over each byte of the input string.
-    while (*cursor != '\0') {
+    // We compute the size we need to allocate for the new text with the
+    // replacements and allocate it. The `+1` is for the terminating '\0'.
+    char *returned_string = malloc(
+        (text_length + 1 + match_list.count * (word_length - pattern_length)) *
+        sizeof(char));
+    //
+    // This position points to the last byte copied from the original `text` to
+    // the `returned_string`. It is initially set to the beginning of the `text`
+    // since we haven't copied anything.
+    const char *old_cursor = text;
+    //
+    // A variable used to store the amount of characters copied from the `text`
+    // to the `returned_string` to update the `write_head`.
+    size_t character_count;
+    //
+    // This write head is used to keep track of where the next bytes should be
+    // written to in the `returned_string`. It is initially set to the beginning
+    // of the `returned_string` since we haven't written anything yet.
+    char *write_head = returned_string;
+    //
+    // A simple iterator used for our for loop.
+    size_t i;
+    //
+    // We go over all of the matched positions where the `pattern` appears in
+    // the `text`.
+    for (i = 0; i < match_list.count; i++) {
         //
-        // For each position of the `cursor`, we check if it matches the
-        // `pattern`.
-        if (strncmp(cursor, pattern, pattern_length) == 0) {
-            // We write the `word` into the returned string. We first resize the
-            // allocated string. We assume that malloc will never fail here,
-            // which is reasonable.
-            returned_string =
-                realloc(returned_string, allocated_length + word_length);
-            //
-            // We copy the `word` into the result string.
-            memcpy(returned_string + allocated_length, word, word_length);
-            //
-            // We update the `allocated_length` for the next iteration.
-            allocated_length += word_length;
-            //
-            // We also have to move our `cursor` right at the end of the
-            // `pattern`.
-            cursor += pattern_length;
-        } else {
-            // If the pattern does not match, we simply copy the character from
-            // the original `text` to the new string. This invokes realloc at
-            // each iteration, which is bad for performance but easier to write.
-            // Since I am in no hurry for now I will leave this easy
-            // implementation and update it later.
-            returned_string = realloc(returned_string, allocated_length + 1);
-            //
-            // We copy character from the original `text`.
-            *(returned_string + allocated_length) = *cursor;
-            //
-            // We update the `allocated_length` for the next iteration.
-            allocated_length++;
-            //
-            // We also have to move our `cursor` to the next character.
-            cursor++;
-        }
+        // We first copy all the non-pattern characters from the end of the
+        // previous match until before the beginning of the current one.
+        character_count =
+            (size_t)text + *(match_list.position + i) - (size_t)old_cursor;
+        //
+        // We perform the copy.
+        memcpy(write_head, old_cursor, character_count);
+        //
+        // We update the `old_cursor` and the `write_head`.
+        write_head += character_count;
+        old_cursor += character_count;
+        //
+        // We replace the `pattern` by the `word` in the `returned_string`.
+        memcpy(write_head, word, word_length);
+        //
+        // We update the `old_cursor` and the `write_head`.
+        write_head += word_length;
+        old_cursor += pattern_length;
     }
-    // We have reached the end of the string, we have to add the terminating
-    // null byte.
-    allocated_length++;
-    returned_string = realloc(returned_string, allocated_length);
-    *(returned_string + allocated_length - 1) = '\0';
+    //
+    // We copy the bytes between the final match and the end of the `text`.
+    character_count = (size_t)text + text_length - (size_t)old_cursor;
+    //
+    // We perform the copy.
+    memcpy(write_head, old_cursor, character_count);
+    //
+    // We update the `write_head`.
+    write_head += character_count;
+    //
+    // We add a final null-termination byte just in case.
+    *write_head = '\0';
     //
     // We return the expected string.
     return returned_string;
@@ -136,8 +148,8 @@ struct MatchList match(const char *text, const char *pattern) {
             // sizeof(size_t).
             if (match_list.count % (pos_per_chunk) == 1) {
                 // We assume malloc never fails here. Also note that
-				// `match_list.count / pos_per_chunk` is the number of chunks
-				// already allocated.
+                // `match_list.count / pos_per_chunk` is the number of chunks
+                // already allocated.
                 match_list.position = realloc(
                     match_list.position,
                     (1 + match_list.count / pos_per_chunk) * ACCENT_CHUNK_SIZE);
