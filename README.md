@@ -50,6 +50,15 @@ The following substitution patterns will be replaced by the associated french ac
 
 Note that there are no escape characters for the defined markup language, so use with caution.
 
+## Fedora Package
+
+To build the fedora package for `accent`, go to the root of the repository and then use:
+
+```bash
+# Assuming all the tools have been installed already.
+fedpkg --release f33 local
+```
+
 ### METADATA
 
 Field | Value
