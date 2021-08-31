@@ -12,5 +12,14 @@
 #
 # Ignoring build directory.
 build
+#
+# Ignoring packaged RPM sources.
+*.src.rpm
+#
+# Ignoring RPM package directory.
+x86_64
+#
+# Ignoring RPM packaging log files.
+*.log
 
 ##################################### EOF ######################################
