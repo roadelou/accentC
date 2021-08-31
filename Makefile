@@ -27,6 +27,9 @@ ERR_FLAG = -Wall -pedantic
 #
 # The location where the executable will be installed.
 BINDIR = $(DESTDIR)/usr/bin
+#
+# Adding RPM distro C flags if they are provided.
+CFLAGS = $(RPM_OPT_FLAGS) $(ERR_FLAG) $(INC_FLAG)
 
 ################################### SPECIAL ####################################
 
@@ -36,9 +39,9 @@ BINDIR = $(DESTDIR)/usr/bin
 
 all: $(EXEC)
 
-# We compile with clang. Using order-only dependancy for BUILDDIR.
+# Using order-only dependancy for BUILDDIR.
 $(EXEC): $(SRC) $(HEAD) | $(BUILDDIR)
-	clang $(INC_FLAG) $(ERR_FLAG) $(SRC) -o $(EXEC)
+	$(CC) $(CFLAGS) $(SRC) -o $(EXEC)
 
 $(BUILDDIR):
 	mkdir -p $(BUILDDIR)
