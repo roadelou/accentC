@@ -36,8 +36,8 @@ BINDIR = $(DESTDIR)/usr/bin
 
 all: $(EXEC)
 
-# We compile with clang.
-$(EXEC): $(BUILDDIR) $(SRC) $(HEAD)
+# We compile with clang. Using order-only dependancy for BUILDDIR.
+$(EXEC): $(SRC) $(HEAD) | $(BUILDDIR)
 	clang $(INC_FLAG) $(ERR_FLAG) $(SRC) -o $(EXEC)
 
 $(BUILDDIR):
@@ -46,7 +46,8 @@ $(BUILDDIR):
 $(BINDIR):
 	mkdir -p $(BINDIR)
 
-install: $(EXEC) $(BINDIR)
+# Using order-only dependancy for BINDIR.
+install: $(EXEC) | $(BINDIR)
 	install -m 755 $(EXEC) $(BINDIR)/accent
 
 uninstall:
