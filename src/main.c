@@ -33,7 +33,7 @@ static const char *patterns[] = {
 // Array used to hold the words that the patterns will be replaced with.
 static const char *words[] = {
     "\xc3\xa8",        "\xc3\xa9", "\xc3\xaa", "\xc3\xa0", "\xc3\xa2",
-    "\xc3\xa7",        "\xc3\x88", "\xc3\x89", "\xc3\x90", "\xc3\x80",
+    "\xc3\xa7",        "\xc3\x88", "\xc3\x89", "\xc3\x8a", "\xc3\x80",
     "\xc3\x82",        "\xc3\x87", "\xc3\xb4", "\xc3\x94", "\xc3\xbb",
     "\xc3\x9b",        "\xc3\xae", "\xc3\x8e", "\xc3\xb9", "\xc3\x99",
     "\n\t\xe2\x80\xa2"};
