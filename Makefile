@@ -30,6 +30,9 @@ BINDIR = $(DESTDIR)/usr/bin
 #
 # Adding RPM distro C flags if they are provided.
 CFLAGS = $(RPM_OPT_FLAGS) $(ERR_FLAG) $(INC_FLAG)
+#
+# The fakeroot used to compile the debian package.
+FAKEROOT_DEBIAN = ./accent_1.0-1
 
 ################################### SPECIAL ####################################
 
@@ -53,10 +56,25 @@ $(BINDIR):
 install: $(EXEC) | $(BINDIR)
 	install -m 755 $(EXEC) $(BINDIR)/accent
 
+debian: 
+	# We start by creating the fakeroot to build the debian package.
+	mkdir -p $(FAKEROOT_DEBIAN)
+	# We compile the source code.
+	make -j4
+	# We install the code in the fakeroot.
+	DESTDIR=$(FAKEROOT_DEBIAN) make install
+	# We copy the package metadata inside the fakeroot.
+	mkdir -p $(FAKEROOT_DEBIAN)/DEBIAN
+	install -m 664 DEBIAN.control $(FAKEROOT_DEBIAN)/DEBIAN/control
+	# Finally, we build the debian package itself.
+	dpkg-deb --build $(FAKEROOT_DEBIAN)
+
 uninstall:
 	rm -f $(BINDIR)/accent
 
 clean:
-	rm $(EXEC)
+	rm -f $(EXEC)
+	rm -rf $(FAKEROOT_DEBIAN)
+	rm -f *.deb
 
 ##################################### EOF ######################################

@@ -1,0 +1,8 @@
+Package: accent
+Version: 1.0-1
+Section: contrib
+Priority: optional
+Architecture: amd64
+Maintainer: roadelou <roadelou@github.com>
+Description: accent
+ accent is a simple CLI tool to add french accents to a text file using markup
